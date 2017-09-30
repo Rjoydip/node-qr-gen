@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <h2>Welcome to node.js QR code generator</h2>
+    <img id="image" src="" alt="">
+</body>
+<script src="/js/qrcode.min.js"></script>
+<script>
+    fetch('http://localhost:3000/qr', {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    }).then(function (response) {
+        if (response.status !== 200)
+            throw new Error(response.status);
+
+        // Examine the text in the response  
+        response.json().then(function (data) {
+            console.log(data);
+            var img = document.getElementById('image');
+            img.src = data.url;
+        });
+    }).catch(function (error) {
+        console.log(error);
+        alert('Looks like there was a problem. Status Code: ' + error.status)
+    });
+</script>
+
+</html>
